@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bosssoft.dao.TkUserMapper">
+    <select id="queryUserResourceByRoleIds" parameterType="java.util.ArrayList" resultType="com.bosssoft.entity.Resource">
+        select distinct t2.* from t_role_resource t1,t_resource t2 where t1.resource_id = t2.id and
+        t2.status = 1 and
+        t1.role_id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <resultMap id="userList" type="com.bosssoft.dto.UserDTO">
+        <id column="id" property="id"/>
+        <result property="code" column="code" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="picture" column="picture" />
+        <result property="tel" column="tel" />
+        <result property="remark" column="remark" />
+        <result property="status" column="status" />
+        <result property="version" column="version" />
+        <collection property="roleList" column="id" javaType="java.util.ArrayList" ofType="com.bosssoft.entity.Role" select="findRoleById"/>
+    </resultMap>
+    <select id="findRoleById" resultType="com.bosssoft.entity.Role">
+                select * from t_user_role,t_role where   t_user_role.user_id = #{id} and t_user_role.role_id = t_role.id
+    </select>
+
+    <select id="queryCurrentPageUserList" resultMap="userList">
+        select * from t_user
+        <where>
+            <if test="name != null and name != ''">
+                and t_user.name like concat('%', #{name}, '%')
+            </if>
+            <if test="code != null and code != ''">
+                and t_user.code = #{code}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteMultipleUser" parameterType="java.util.ArrayList" >
+        delete from t_user where
+        t_user.id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <delete id="clearUserRoleByUserId" parameterType="java.util.ArrayList">
+        delete  from t_user_role where
+        user_id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>
