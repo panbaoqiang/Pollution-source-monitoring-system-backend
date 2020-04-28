@@ -17,7 +17,11 @@ public class Resource {
     @Column
     private String path;
     @Column
-    private String code;
+    private String btnPermissionValue;
+    @Column
+    private Integer isRedirect;
+    @Column
+    private String redirect;
     @Column
     private String parentId;
     @Column
@@ -43,30 +47,32 @@ public class Resource {
     @Column
     private Integer version;
 
-    public String getId() {
-        return id;
-    }
-
     @Override
     public String toString() {
         return "Resource{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", path='" + path + '\'' +
-                ", code='" + code + '\'' +
-                ", parentId=" + parentId +
+                ", btnPermissionValue='" + btnPermissionValue + '\'' +
+                ", isRedirect='" + isRedirect + '\'' +
+                ", redirect='" + redirect + '\'' +
+                ", parentId='" + parentId + '\'' +
                 ", component='" + component + '\'' +
                 ", icon='" + icon + '\'' +
                 ", resourceType=" + resourceType +
                 ", leaf=" + leaf +
                 ", remark='" + remark + '\'' +
                 ", status=" + status +
-                ", createdBy=" + createdBy +
+                ", createdBy='" + createdBy + '\'' +
                 ", createdTime=" + createdTime +
-                ", updatedBy=" + updatedBy +
+                ", updatedBy='" + updatedBy + '\'' +
                 ", updatedTime=" + updatedTime +
                 ", version=" + version +
                 '}';
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {
@@ -89,12 +95,28 @@ public class Resource {
         this.path = path;
     }
 
-    public String getCode() {
-        return code;
+    public String getBtnPermissionValue() {
+        return btnPermissionValue;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setBtnPermissionValue(String btnPermissionValue) {
+        this.btnPermissionValue = btnPermissionValue;
+    }
+
+    public Integer getIsRedirect() {
+        return isRedirect;
+    }
+
+    public void setIsRedirect(Integer isRedirect) {
+        this.isRedirect = isRedirect;
+    }
+
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
     }
 
     public String getParentId() {

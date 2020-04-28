@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Administrator
  */
-public interface TkUserMapper extends Mapper<User>, IdsMapper<Resource>, InsertListMapper<UserRole> {
+public interface TkUserMapper extends Mapper<User>, IdsMapper<Resource>{
     /**
      * 根据用户id获取角色集合
      * @param id

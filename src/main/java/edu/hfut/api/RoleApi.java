@@ -4,7 +4,6 @@ import edu.hfut.pojo.vo.RoleVO;
 import edu.hfut.util.comon.CommonRequest;
 import edu.hfut.util.comon.CommonResponse;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author panbaoqiang

@@ -4,6 +4,7 @@ import edu.hfut.util.comon.SnowFlakeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /**
  * @author panbaoqiang
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @create 2020-04-27 22:50
  */
 @Configuration
+@Order(-50)
 public class BeanConfiguration {
     @Value("${server.dataCenterId}")
     private long dataCenterId;
