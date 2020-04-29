@@ -3,8 +3,10 @@ package edu.hfut.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.hfut.dao.TkResourceMapper;
+import edu.hfut.dao.TkRoleResourceMapper;
 import edu.hfut.pojo.dto.ResourceDTO;
 import edu.hfut.pojo.entity.Resource;
+import edu.hfut.pojo.entity.RoleResource;
 import edu.hfut.service.IResourceService;
 import edu.hfut.util.comon.CommonResponse;
 import edu.hfut.util.comon.SnowFlakeUtil;
@@ -27,7 +29,8 @@ import java.util.*;
 public class ResourceServiceImpl implements IResourceService {
     @Autowired
     private TkResourceMapper tkResourceMapper;
-
+    @Autowired
+    private TkRoleResourceMapper tkRoleResourceMapper;
     @Autowired
     private SnowFlakeUtil snowFlakeUtil;
 
@@ -48,7 +51,14 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    @Transactional
     public CommonResponse addResource(ResourceDTO request, String operatorId) {
+        // 先更新父亲资源
+        Resource parentResource = new Resource();
+        parentResource.setId(request.getParentId());
+        parentResource.setLeaf(0);
+        tkResourceMapper.updateByPrimaryKeySelective(parentResource);
+        // 更新子资源
         request.setBtnPermissionValue(request.getPath().replace("/",""));
         Resource resource = new Resource();
         BeanUtils.copyProperties(request,resource);
@@ -71,6 +81,7 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    @Transactional
     public CommonResponse updateResource(ResourceDTO request, String operateId) {
         Example example = new Example(Resource.class);
         example.createCriteria().andEqualTo("id",request.getId()).andEqualTo("version",request.getVersion());
@@ -89,25 +100,47 @@ public class ResourceServiceImpl implements IResourceService {
     @Override
     @Transactional
     public CommonResponse deleteResource(ResourceDTO request) {
-        Resource resource = new Resource();
-        BeanUtils.copyProperties(request,resource);
-        if(request.getId() != null && !request.getId().equals("")){
-            tkResourceMapper.deleteByPrimaryKey(resource);
-        }else{
+        if(request.getId() == null || request.getId().equals("")){
             throw new BussinessException(StatusCode.DEL_ERR);
         }
+        // 查看资源是否被角色关联
+        RoleResource roleResource = new RoleResource();
+        roleResource.setResourceId(request.getId());
+        List<RoleResource> select = tkRoleResourceMapper.select(roleResource);
+        if(select != null && !select.isEmpty()){
+            throw new BussinessException(StatusCode.DEL_ERR_FOR_RESOURCE_ROLE);
+        }
+        Resource resource = new Resource();
+        BeanUtils.copyProperties(request,resource);
+            try{
+                tkResourceMapper.deleteByPrimaryKey(resource);
+            }catch (Exception e){
+                throw new BussinessException(StatusCode.DEL_ERR);
+            }
         return new CommonResponse<>(StatusCode.SUCCEED.getCode(),StatusCode.SUCCEED.getMsg());
     }
 
     @Override
     @Transactional
     public CommonResponse deleteMultipleResource(ResourceDTO request) {
-        if(request.getResourceIdList() != null && !request.getResourceIdList().isEmpty()){
+        if(request.getResourceIdList() == null || request.getResourceIdList().isEmpty()){
+            throw new BussinessException(StatusCode.DEL_ERR);
+        }
+        try{
+            tkRoleResourceMapper.deleteMultipleRoleResourceByResourceId(request.getResourceIdList());
             tkResourceMapper.deleteMultpleResource(request.getResourceIdList());;
-        }else{
+        }catch (Exception e){
             throw new BussinessException(StatusCode.DEL_ERR);
         }
         return new CommonResponse<>(StatusCode.SUCCEED.getCode(),StatusCode.SUCCEED.getMsg());
+    }
+
+    @Override
+    public CommonResponse getAllMenuResource() {
+        Resource resource = new Resource();
+        resource.setResourceType(1);
+        List<Resource> menuList = tkResourceMapper.select(resource);
+        return new CommonResponse<>(StatusCode.SUCCEED.getCode(),StatusCode.SUCCEED.getMsg(),menuList);
     }
 
     /**

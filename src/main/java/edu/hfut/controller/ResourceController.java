@@ -82,4 +82,10 @@ public class ResourceController extends BaseController implements ResourceApi {
         BeanUtils.copyProperties(request.getData(),resourceDTO);
         return service.deleteMultipleResource(resourceDTO);
     }
+
+    @Override
+    @PostMapping("getAllMenuResource")
+    public CommonResponse getAllMenuResource(@RequestBody  CommonRequest<Void> request) {
+        return service.getAllMenuResource();
+    }
 }

@@ -1,5 +1,6 @@
 package edu.hfut.api;
 
+import edu.hfut.pojo.vo.RoleVO;
 import edu.hfut.pojo.vo.UserVO;
 import edu.hfut.util.comon.CommonRequest;
 import edu.hfut.util.comon.CommonResponse;
@@ -81,5 +82,22 @@ public interface UserApi {
      * @return
      */
     CommonResponse getUserResource(CommonRequest<UserVO> request);
+
+
+    /**
+     * 根据userIdList清空角色信息
+     * @param request
+     * @return
+     */
+    CommonResponse clearUserRoleByUserIdList( CommonRequest<UserVO> request) ;
+
+
+    /**
+     * 根据单个userId清空角色信息
+     * @param request
+     * @return
+     */
+    CommonResponse clearUserRoleByUserId( CommonRequest<UserVO> request) ;
+
 
 }

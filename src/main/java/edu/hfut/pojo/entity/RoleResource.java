@@ -42,11 +42,11 @@ public class RoleResource {
         this.roleId = roleId;
     }
 
-    public String getSourceId() {
+    public String getResourceId() {
         return resourceId;
     }
 
-    public void setSourceId(String sourceId) {
-        this.resourceId = sourceId;
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
     }
 }

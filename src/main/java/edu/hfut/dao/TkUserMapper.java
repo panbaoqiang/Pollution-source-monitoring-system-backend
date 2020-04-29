@@ -22,7 +22,7 @@ public interface TkUserMapper extends Mapper<User>, IdsMapper<Resource>{
      * @param id
      * @return
      */
-    @Select("select t_role.name from t_user_role , t_role where t_user_role.role_id = t_role.id and t_user_role.user_id=#{id}")
+    @Select("select t_role.name from t_user_role , t_role where t_user_role.role_id = t_role.id and t_user_role.user_id=#{id} and t_role.status = 1")
     List<String> queryUserRole(String id);
 
     /**
@@ -44,10 +44,10 @@ public interface TkUserMapper extends Mapper<User>, IdsMapper<Resource>{
     /**
      * 这个函数是根据一个name和code用户集合，这里会将所有的role都包含进去
      * @param name
-     * @param code
+     * @param username
      * @return
      */
-    List<UserDTO> queryCurrentPageUserList(@Param("name") String name, @Param("code") String code);
+    List<UserDTO> queryCurrentPageUserList(@Param("name") String name, @Param("username") String username);
 
 
     /**
@@ -63,5 +63,12 @@ public interface TkUserMapper extends Mapper<User>, IdsMapper<Resource>{
      * @return
      */
     Integer clearUserRoleByUserId(@Param("ids") List<String> ids);
+
+    /**
+     * 根据UserId集合删除所有有关的角色信息
+     * @param ids
+     * @return
+     */
+    Integer clearRoleUserByUserId(@Param("ids") List<String> ids);
 
 }

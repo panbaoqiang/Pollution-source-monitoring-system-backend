@@ -34,8 +34,8 @@
             <if test="name != null and name != ''">
                 and t_user.name like concat('%', #{name}, '%')
             </if>
-            <if test="code != null and code != ''">
-                and t_user.code = #{code}
+            <if test="username != null and username != ''">
+                and t_user.username = #{username}
             </if>
         </where>
     </select>
@@ -56,5 +56,11 @@
             #{item}
         </foreach>
     </delete>
-
+    <delete id="clearRoleUserByUserId" parameterType="java.util.ArrayList">
+        delete  from t_user_role where
+        user_id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

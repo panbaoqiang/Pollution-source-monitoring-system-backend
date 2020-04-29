@@ -45,7 +45,6 @@ public interface RoleApi {
      * @param request
      * @return
      */
-    @PostMapping("deleteRole")
     CommonResponse deleteRole( CommonRequest<RoleVO> request);
 
     /**
@@ -53,7 +52,6 @@ public interface RoleApi {
      * @param request
      * @return
      */
-    @PostMapping("deleteMultipleRole")
     CommonResponse deleteMultipleRole( CommonRequest<RoleVO> request);
 
     /**

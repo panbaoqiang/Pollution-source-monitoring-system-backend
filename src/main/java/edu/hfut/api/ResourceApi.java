@@ -53,4 +53,11 @@ public interface ResourceApi {
      * @return
      */
     CommonResponse deleteMultipleResource( CommonRequest<ResourceVO> request);
+
+    /**
+     * 获取所有的可视化菜单
+     * @param request
+     * @return
+     */
+    CommonResponse getAllMenuResource(CommonRequest<Void> request);
 }

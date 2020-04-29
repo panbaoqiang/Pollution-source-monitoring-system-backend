@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hfut.dao.TkUserRoleMapper">
+    <select id="queryUserRoleCountByUserIds" parameterType="java.util.ArrayList" resultType="java.lang.Integer">
+        select count(id) from t_user_role where
+        user_id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteMultipleUserRoleByRoleId" parameterType="java.util.ArrayList" >
+        delete from t_user_role where
+        t_user_role.role_id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

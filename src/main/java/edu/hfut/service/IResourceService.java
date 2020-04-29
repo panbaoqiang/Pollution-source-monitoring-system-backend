@@ -51,4 +51,12 @@ public interface IResourceService {
      * @return
      */
     CommonResponse deleteMultipleResource(ResourceDTO request);
+
+    /**
+     * 获取所有的菜单资源
+     * @param
+     * @return
+     */
+    CommonResponse getAllMenuResource();
+
 }

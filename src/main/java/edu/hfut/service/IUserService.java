@@ -1,5 +1,6 @@
 package edu.hfut.service;
 
+import edu.hfut.pojo.dto.RoleDTO;
 import edu.hfut.pojo.dto.UserDTO;
 import edu.hfut.util.comon.CommonResponse;
 
@@ -82,4 +83,17 @@ public interface IUserService  {
      */
     CommonResponse getUserResource(UserDTO request);
 
+    /**
+     * 根据UserIds清空用户的角色信息表
+     * @param request
+     * @return
+     */
+    CommonResponse clearUserRoleByUserIdList(UserDTO request) ;
+
+    /**
+     * 根据U单个用户id清空用户的角色信息表
+     * @param request
+     * @return
+     */
+    CommonResponse clearUserRoleByUserId(UserDTO request) ;
 }
