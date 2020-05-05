@@ -17,7 +17,9 @@ public enum StatusCode {
     ASSIGN_ROLE_RESOURCE_ERR(30311,"为角色分配资源失败"),
     CLEAR_USER_ROLE_ERR(30311,"清空用户角色信息失败"),
     ASSIGN_ROLE_USER_ERR(30312,"为角色分配用户失败"),
-    UNKNOWN_ERR(99999,"未知错误");
+    UNKNOWN_ERR(99999,"未知错误"),
+    UNAUTHORIZED_ERR(66666,"授权错误"),
+    UNAUTHENTICATION_ERR(50012,"Token失效，请重新登入");
     private Integer code;
     private String msg;
     StatusCode(Integer code, String msg) {

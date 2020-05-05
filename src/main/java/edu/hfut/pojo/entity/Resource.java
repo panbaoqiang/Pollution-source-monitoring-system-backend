@@ -17,7 +17,7 @@ public class Resource {
     @Column
     private String path;
     @Column
-    private String btnPermissionValue;
+    private String permission;
     @Column
     private Integer isRedirect;
     @Column
@@ -53,7 +53,7 @@ public class Resource {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", path='" + path + '\'' +
-                ", btnPermissionValue='" + btnPermissionValue + '\'' +
+                ", permission='" + permission + '\'' +
                 ", isRedirect='" + isRedirect + '\'' +
                 ", redirect='" + redirect + '\'' +
                 ", parentId='" + parentId + '\'' +
@@ -95,12 +95,12 @@ public class Resource {
         this.path = path;
     }
 
-    public String getBtnPermissionValue() {
-        return btnPermissionValue;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setBtnPermissionValue(String btnPermissionValue) {
-        this.btnPermissionValue = btnPermissionValue;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     public Integer getIsRedirect() {

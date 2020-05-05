@@ -3,8 +3,11 @@ package edu.hfut.controller.base;
 import edu.hfut.util.comon.CommonResponse;
 import edu.hfut.util.comon.StatusCode;
 import edu.hfut.util.exception.BussinessException;
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -27,6 +30,14 @@ public abstract  class BaseController {
     public CommonResponse<Void> expHandler(Exception e){
         logger.error("####################未定义异常######################");
         CommonResponse<Void> response = new CommonResponse<>(StatusCode.UNKNOWN_ERR.getCode(), StatusCode.UNKNOWN_ERR.getMsg());
+        return response;
+    }
+
+
+    // 捕捉shiro的异常
+    @ExceptionHandler(UnauthorizedException.class)
+    public CommonResponse handle401(UnauthorizedException e) {
+        CommonResponse<Void> response = new CommonResponse<>(StatusCode.UNAUTHORIZED_ERR.getCode(), StatusCode.UNAUTHORIZED_ERR.getMsg());
         return response;
     }
 }

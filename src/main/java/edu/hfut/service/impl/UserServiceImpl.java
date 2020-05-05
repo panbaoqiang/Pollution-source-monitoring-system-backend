@@ -167,7 +167,7 @@ public class UserServiceImpl implements IUserService {
         }
         Map result = new HashMap();
         System.out.println("userId:" + user.getId());
-        result.put("token", JwtUtil.sign(user.getId()));
+        result.put("token", JwtUtil.sign(user.getUsername(),user.getPassword()));
         result.put("user", user);
         return new CommonResponse(StatusCode.SUCCEED.getCode(),StatusCode.SUCCEED.getMsg(),result);
     }
@@ -216,6 +216,20 @@ public class UserServiceImpl implements IUserService {
             throw new BussinessException(StatusCode.CLEAR_USER_ROLE_ERR);
         }
         return  new CommonResponse(StatusCode.SUCCEED.getCode(),StatusCode.SUCCEED.getMsg());
+    }
+
+    @Override
+    public User queryUserByUserName(String username) {
+        User query = new User();
+        query.setUsername(username);
+        User user = tkUserMapper.selectOne(query);
+        return user;
+    }
+
+    @Override
+    public List<String> getRoleList(User user) {
+        List<String> roleName = tkUserMapper.queryUserRole(user.getId());
+        return roleName;
     }
 
 

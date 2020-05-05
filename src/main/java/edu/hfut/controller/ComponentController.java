@@ -5,6 +5,7 @@ import edu.hfut.controller.base.BaseController;
 import edu.hfut.service.IComponentService;
 import edu.hfut.util.comon.CommonRequest;
 import edu.hfut.util.comon.CommonResponse;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

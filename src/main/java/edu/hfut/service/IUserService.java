@@ -2,6 +2,7 @@ package edu.hfut.service;
 
 import edu.hfut.pojo.dto.RoleDTO;
 import edu.hfut.pojo.dto.UserDTO;
+import edu.hfut.pojo.entity.User;
 import edu.hfut.util.comon.CommonResponse;
 
 import java.util.List;
@@ -96,4 +97,18 @@ public interface IUserService  {
      * @return
      */
     CommonResponse clearUserRoleByUserId(UserDTO request) ;
+
+    /**
+     * 根据 用户的用户名查询用户实体
+     * @param username
+     * @return
+     */
+    User queryUserByUserName(String username);
+
+    /**
+     * 获取登入用户的角色列表
+     * @param user
+     * @return
+     */
+    List<String> getRoleList(User user);
 }
