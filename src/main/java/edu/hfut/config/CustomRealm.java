@@ -39,16 +39,13 @@ public class CustomRealm extends AuthorizingRealm  {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("————身份认证方法————");
         String token = (String) authenticationToken.getCredentials();
         String username = JwtUtil.getUsername(token);
         if(username == null){
-            System.out.println("用户为空");
             throw new AuthenticationException();
         }
         User user = userService.queryUserByUserName(username);
         if(user == null){
-            System.out.println("无用户");
             throw new AuthenticationException();
         }
         boolean verify = JwtUtil.verify(token, username, user.getPassword());

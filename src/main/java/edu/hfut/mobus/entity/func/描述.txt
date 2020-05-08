@@ -1,0 +1,42 @@
+这些相当于也是一个AbstractFunction
+我觉得跟WriteSingleCoil和WriteSingleRegister没区别
+我的阅读顺序从request 和response依次阅读下去
+这里只有6个request和另外的两个功能，一共8个
+但是实际可能很多个，所以需要在扩展继续写就可以了
+
+WriteSingleCoil.java       03         写单个线圈 
+WriteSingleRegister.java      06      写单个寄存器
+ReadCoilsRequest.java       01        读取1个或者多个线圈   DO
+ReadDiscreteInputsRequest.java   02   读取一个或者多个输入状态 DI
+感觉01 和02没有什么区别，估计是有些寄存器没有办法写吧
+ReadHoldingRegistersRequest.java  03  读一个或多个保持寄存器
+ReadInputRegistersRequest.java    04  读一个或者多个输入寄存器 
+WriteMultipleCoilsRequest.java    0F  写多个线圈
+WriteMultipleRegistersRequest.java 10（16） 写多个保持寄存器
+
+这些类使用时基本不会用空的构造函数，也就是说只要声明这个对象说明就是一个完整的指令了（你对象的声明就伴随着指令相关字段的赋值），
+不需要赋值，这样也就避免了传递某一些字段为空的指令，一般用于request包
+项目需要的功能码有
+
+03，10,0F ,06 ,04 , 20
+缺少一个20，而这个20可能是错误的，有待提高
+
+response包是request返回的相应结构
+ReadCoilsResponse.java  对应  ReadCoilsRequest.java
+ReadDiscreteInputsResponse.java  对应 ReadDiscreteInputsRequest.java
+ReadHoldingRegistersResponse.java 对应 ReadHoldingRegistersRequest.java
+ReadInputRegistersResponse.java 对应 ReadInputRegistersRequest.java 
+WriteMultipleCoilsResponse.java 对应 WriteMultipleCoilsRequest.java
+WriteMultipleRegistersResponse.java 对应  WriteMultipleRegistersRequest.java
+项目缺乏两个reponse:
+WriteSingleCoil.java   和           WriteSingleRegister.java
+这是因为这两个是单纯的设置，相应格式就是，一旦硬件相应成功返回相同的指令码回去
+也就是说WriteSingleCoil.java   和           WriteSingleRegister.java既是request 也可以是reponse
+
+
+不管是request还是还是response包每个类都是有空的构造函数，这是为了解码用的
+当一个相应返回的时候，我知道他是哪一个reponse 哪一个功能码
+那么到时我们可以先声明一个只包含功能码的类，然后根据他的相对应的decode解码获取相应的信息
+
+
+
